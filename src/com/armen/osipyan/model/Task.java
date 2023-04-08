@@ -9,11 +9,15 @@ public class Task {
     private String formulation;
     private Status status;
 
-    public Task(String name, String formulation) {
-        this.id = ++Manager.id;
-        this.name = name;
-        this.formulation = formulation;
+    public Task(Task task) {
+        this.id = Manager.id++;
+        this.name = task.name;
+        this.formulation = task.formulation;
         this.status = Status.NEW;
+    }
+
+    public Task() {
+
     }
 
     public Status getStatus() {
@@ -28,6 +32,12 @@ public class Task {
         this.name = name;
         this.formulation = formulation;
         this.status = status;
+    }
+    public Task(String name, String formulation) {
+        this.id = Manager.id++;
+        this.name = name;
+        this.formulation = formulation;
+        this.status = Status.NEW;
     }
 
     public long getId() {

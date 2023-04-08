@@ -12,6 +12,14 @@ public class SubTask extends Task{
         return epic;
     }
 
+    public SubTask(SubTask subTask) {
+        super(subTask);
+    }
+
+    public SubTask(String name, String formulation, Status status) {
+        super(name, formulation, status);
+    }
+
     public SubTask(String name, String formulation) {
         super(name, formulation);
     }
