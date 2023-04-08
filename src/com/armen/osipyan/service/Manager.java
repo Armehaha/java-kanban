@@ -12,4 +12,6 @@ public class Manager {
     public static HashMap<Integer, Task> integerTaskHashMap;
     public static HashMap<Integer, Epic> integerEpicHashMap;
     public static HashMap<Integer, ArrayList<SubTask>> integerArrayListHashMap;
+
+
 }

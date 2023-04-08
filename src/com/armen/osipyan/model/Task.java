@@ -3,6 +3,33 @@ package com.armen.osipyan.model;
 import com.armen.osipyan.service.Manager;
 
 public class Task {
+
+    private long id;
+     private  String name;
+    private String formulation;
+    private Status status;
+
+    public Task(String name, String formulation) {
+        this.id = ++Manager.id;
+        this.name = name;
+        this.formulation = formulation;
+        this.status = Status.NEW;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Task(String name, String formulation, Status status) {
+        this.name = name;
+        this.formulation = formulation;
+        this.status = status;
+    }
+
     public long getId() {
         return id;
     }
@@ -36,13 +63,4 @@ public class Task {
         this.formulation = formulation;
     }
 
-    private long id;
-     private  String name;
-    private String formulation;
-
-    public Task(String name, String formulation) {
-        this.id = ++Manager.id;
-        this.name = name;
-        this.formulation = formulation;
-    }
 }
