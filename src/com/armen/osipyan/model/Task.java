@@ -3,8 +3,7 @@ package com.armen.osipyan.model;
 import com.armen.osipyan.service.Manager;
 
 public class Task {
-
-    private long id;
+    private final long id;
     private String name;
     private String formulation;
     private Status status;
@@ -16,9 +15,6 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    public Task() {
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -27,10 +23,17 @@ public class Task {
         this.status = status;
     }
 
-    public Task(String name, String formulation, Status status) {
+    public Task(long id, String name, String formulation, Status status) {
+        this.id = id;
         this.name = name;
         this.formulation = formulation;
         this.status = status;
+    }
+
+    public Task(long id, String name, String formulation) {
+        this.id = id;
+        this.name = name;
+        this.formulation = formulation;
     }
 
     public Task(String name, String formulation) {
@@ -44,6 +47,27 @@ public class Task {
         return id;
     }
 
+
+    public String getName() {
+        return name;
+    }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public String getFormulation() {
+        return formulation;
+    }
+
+
+    public void setFormulation(String formulation) {
+        this.formulation = formulation;
+    }
+
+
     @Override
     public String toString() {
         return "Task{" +
@@ -52,25 +76,4 @@ public class Task {
                 ", formulation='" + formulation + '\'' +
                 '}';
     }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFormulation() {
-        return formulation;
-    }
-
-    public void setFormulation(String formulation) {
-        this.formulation = formulation;
-    }
-
 }

@@ -1,32 +1,34 @@
 import com.armen.osipyan.model.Epic;
 import com.armen.osipyan.model.SubTask;
 import com.armen.osipyan.model.Task;
-import com.armen.osipyan.model.Manager;
+import com.armen.osipyan.service.Manager;
 
 public class Main {
 
     public static void main(String[] args) {
-//        Task task = new Task("test","test");
-//        System.out.println(task);
-//        Epic epic = new Epic("test","test");
-//        System.out.println(epic);
-//        SubTask subTask = new SubTask("tr","reer");
-//        System.out.println(subTask);
-//        epic.addSubTasks(subTask);
-//        System.out.println(epic);
         Manager manager = new Manager();
-        manager.createTask(new Task("Создать скрипты","описать скрипты"));
-        Epic epic = new Epic("разработка редиректа","создание нового функционала");
-        manager.createEpic(epic);
-        manager.createSubTask(epic,new SubTask("front","fro"));
-        manager.createSubTask(epic,new SubTask("back","back"));
-        System.out.println(Manager.longEpicHashMap);
-        System.out.println(Manager.longTaskHashMap);
-        System.out.println(Manager.longSubTaskHashMap);
-        manager.deleteSubTask(3);
-        System.out.println(Manager.longSubTaskHashMap);
-        manager.deleteTask(10);
-        System.out.println(Manager.longEpicHashMap.get(2L).getSubTasks());
 
+        manager.createTask(new Task("Подготовить скрипты для вывода в прод",
+                "Добавьте новые данные в таблицу nsi_regions"));
+
+        manager.createTask(new Task("добавить настройки услуги",
+                "добавьте в таблицу настрйки для новой услуги"));
+
+        System.out.println(manager.getAllTask());
+        Epic epic = new Epic("Редирект с 10700 на 606204", "редирект с одной услуги на другую");
+        manager.createEpic(epic);
+        System.out.println(manager.getAllEpic());
+        manager.createSubTask(epic, new SubTask("фронт", "фронт"));
+        manager.createSubTask(epic, new SubTask("бэк", "бэк"));
+        System.out.println(manager.getAllSubTask());
+
+        System.out.println(manager.getAllSubTask());
+        System.out.println(manager.getAllEpic());
+
+        Epic epic2 = new Epic("обновление услуги", "обновление услуги");
+        epic2.addSubTasks(new SubTask("back", "back"));
+        manager.createEpic(epic2);
+        System.out.println(manager.getAllEpic());
+        System.out.println(manager.getAllSubTask());
     }
 }
