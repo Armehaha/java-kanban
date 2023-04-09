@@ -5,7 +5,7 @@ import com.armen.osipyan.service.Manager;
 public class Task {
 
     private long id;
-     private  String name;
+    private String name;
     private String formulation;
     private Status status;
 
@@ -17,7 +17,6 @@ public class Task {
     }
 
     public Task() {
-
     }
 
     public Status getStatus() {
@@ -33,6 +32,7 @@ public class Task {
         this.formulation = formulation;
         this.status = status;
     }
+
     public Task(String name, String formulation) {
         this.id = Manager.id++;
         this.name = name;

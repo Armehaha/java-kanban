@@ -1,7 +1,7 @@
 import com.armen.osipyan.model.Epic;
 import com.armen.osipyan.model.SubTask;
 import com.armen.osipyan.model.Task;
-import com.armen.osipyan.service.Manager;
+import com.armen.osipyan.model.Manager;
 
 public class Main {
 
@@ -26,5 +26,7 @@ public class Main {
         manager.deleteSubTask(3);
         System.out.println(Manager.longSubTaskHashMap);
         manager.deleteTask(10);
+        System.out.println(Manager.longEpicHashMap.get(2L).getSubTasks());
+
     }
 }

@@ -2,7 +2,6 @@ package com.armen.osipyan.model;
 
 public class SubTask extends Task{
  private  Epic epic;
-
     @Override
     public String toString() {
         return super.toString();
@@ -10,10 +9,6 @@ public class SubTask extends Task{
 
     public Epic getEpic() {
         return epic;
-    }
-
-    public SubTask(SubTask subTask) {
-        super(subTask);
     }
 
     public SubTask(String name, String formulation, Status status) {
