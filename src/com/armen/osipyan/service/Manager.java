@@ -33,6 +33,7 @@ public class Manager {
     public void deleteSubTask(long idSubTask) {
         longSubTaskHashMap.get(idSubTask).getEpic().getSubTasks().removeIf(subTask -> subTask.getId() == idSubTask);
         longSubTaskHashMap.remove(idSubTask);
+        longEpicHashMap.clear();
     }
 
 

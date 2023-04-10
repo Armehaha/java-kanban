@@ -5,20 +5,15 @@ import com.armen.osipyan.service.Manager;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    private ArrayList<Task> subTasks;
+    private final ArrayList<Task> subTasks;
 
     public ArrayList<Task> getSubTasks() {
         return subTasks;
     }
 
-    public Epic(String name, String formulation) {
-        super(name, formulation);
-        subTasks = new ArrayList<>();
-    }
-
     public Epic(long id, String name, String formulation, Status status) {
-        super(id, name, formulation);
-        super.setStatus(status);
+        super(id, name, formulation, status);
+        subTasks = new ArrayList<>();
     }
 
     public void addSubTasks(SubTask subTask) {

@@ -30,19 +30,6 @@ public class Task {
         this.status = status;
     }
 
-    public Task(long id, String name, String formulation) {
-        this.id = id;
-        this.name = name;
-        this.formulation = formulation;
-    }
-
-    public Task(String name, String formulation) {
-        this.id = Manager.id++;
-        this.name = name;
-        this.formulation = formulation;
-        this.status = Status.NEW;
-    }
-
     public long getId() {
         return id;
     }

@@ -16,10 +16,6 @@ public class SubTask extends Task {
         super(id, name, formulation, status);
     }
 
-    public SubTask(String name, String formulation) {
-        super(name, formulation);
-    }
-
     @Override
     public String toString() {
         return "SubTask{" +
