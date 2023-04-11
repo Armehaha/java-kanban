@@ -8,12 +8,6 @@ public class Task {
     private String formulation;
     private Status status;
 
-    public Task(Task task) {
-        this.id = Manager.id++;
-        this.name = task.name;
-        this.formulation = task.formulation;
-        this.status = Status.NEW;
-    }
 
     public Status getStatus() {
         return status;

@@ -96,23 +96,37 @@ public class Manager {
 
 
     public void updateTask(Task task) {
-        longTaskHashMap.put(task.getId(), task);
+        if (task != null) {
+            longTaskHashMap.put(task.getId(), task);
+        } else {
+            System.out.println("При обновлении данный произошла ошибка, отправьте корректные данные для обновления.");
+        }
+
     }
 
 
     public void updateEpic(Epic epic) {
-        longEpicHashMap.put(epic.getId(), epic);
+        if (epic != null) {
+            longEpicHashMap.put(epic.getId(), epic);
+        } else {
+            System.out.println("При обновлении данный произошла ошибка, отправьте корректные данные для обновления.");
+        }
     }
 
 
     public void updateSubTask(SubTask subTask) {
-        for (int i = 0; i < subTask.getEpic().getSubTasks().size(); i++) {
-            if (subTask.getEpic().getSubTasks().get(i).getId() == subTask.getId()) {
-                subTask.getEpic().getSubTasks().set(i, subTask);
+        if (subTask != null) {
+            for (int i = 0; i < subTask.getEpic().getSubTasks().size(); i++) {
+                if (subTask.getEpic().getSubTasks().get(i).getId() == subTask.getId()) {
+                    subTask.getEpic().getSubTasks().set(i, subTask);
+                }
             }
+            longSubTaskHashMap.put(subTask.getId(), subTask);
+            checkEpicStatus(subTask.getEpic());
+        } else {
+            System.out.println("При обновлении данный произошла ошибка, отправьте корректные данные для обновления.");
         }
-        longSubTaskHashMap.put(subTask.getId(), subTask);
-        checkEpicStatus(subTask.getEpic());
+
     }
 
 
@@ -129,5 +143,17 @@ public class Manager {
                 }
             }
         }
+    }
+
+    public Epic getEpic(long id) {
+        return longEpicHashMap.get(id);
+    }
+
+    public Task getTask(long id) {
+        return longTaskHashMap.get(id);
+    }
+
+    public SubTask getSubTask(long id) {
+        return longSubTaskHashMap.get(id);
     }
 }

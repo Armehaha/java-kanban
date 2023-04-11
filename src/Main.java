@@ -31,5 +31,8 @@ public class Main {
         manager.createEpic(epic2);
         System.out.println(manager.getAllEpic());
         System.out.println(manager.getAllSubTask());
+        System.out.println(manager.getTask(1));
+        System.out.println(manager.getEpic(3));
+        System.out.println(manager.getSubTask(4));
     }
 }
