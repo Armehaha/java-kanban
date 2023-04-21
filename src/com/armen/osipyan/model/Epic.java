@@ -1,6 +1,5 @@
 package com.armen.osipyan.model;
 
-import com.armen.osipyan.service.Manager;
 
 import java.util.ArrayList;
 
@@ -19,7 +18,6 @@ public class Epic extends Task {
     public void addSubTasks(SubTask subTask) {
         subTasks.add(subTask);
         subTask.setEpic(this);
-        Manager.longSubTaskHashMap.put(subTask.getId(), subTask);
     }
 
     public void deleteAllSubTasks() {

@@ -1,7 +1,5 @@
 package com.armen.osipyan.model;
 
-import com.armen.osipyan.service.Manager;
-
 public class Task {
     private final long id;
     private String name;

@@ -6,66 +6,71 @@ import com.armen.osipyan.model.SubTask;
 import com.armen.osipyan.model.Task;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
-public class Manager {
-    public static long id = 1;
-    public static HashMap<Long, Task> longTaskHashMap = new HashMap<>();
-    public static HashMap<Long, Epic> longEpicHashMap = new HashMap<>();
-    public static HashMap<Long, SubTask> longSubTaskHashMap = new HashMap<>();
+import static com.armen.osipyan.service.Managers.*;
 
+public class InMemoryTaskManager implements TaskManager {
+    HistoryManagers historyManagers = Managers.getDefaultHistory();
 
+    @Override
     public void createTask(Task task) {
         longTaskHashMap.put(task.getId(), task);
     }
 
-
+    @Override
     public void createEpic(Epic epic) {
         longEpicHashMap.put(epic.getId(), epic);
     }
 
-
+    @Override
     public void createSubTask(Epic epic, SubTask subTask) {
         epic.addSubTasks(subTask);
+        longSubTaskHashMap.put(subTask.getId(), subTask);
+
     }
 
-
+    @Override
     public void deleteSubTask(long idSubTask) {
         longSubTaskHashMap.get(idSubTask).getEpic().getSubTasks().removeIf(subTask -> subTask.getId() == idSubTask);
         longSubTaskHashMap.remove(idSubTask);
         longEpicHashMap.clear();
+        historyTask.remove(idSubTask);
     }
 
-
+    @Override
     public void deleteTask(long id) {
         longTaskHashMap.remove(id);
+        historyTask.remove(id);
     }
 
 
+    @Override
     public void deleteEpic(long id) {
         longEpicHashMap.get(id).getSubTasks().forEach(subTask -> longSubTaskHashMap.remove(subTask.getId()));
         longEpicHashMap.remove(id);
+        historyTask.remove(id);
     }
 
-
+    @Override
     public void deleteAllTask() {
         longTaskHashMap.clear();
     }
 
-
+    @Override
     public void deleteAllEpic() {
         longSubTaskHashMap.clear();
         longEpicHashMap.clear();
     }
 
-
+    @Override
     //на мой взгляд странно будет удалять просто все подзадачи не обращая внимания на эпики , поэтому сделал два метода
     public void deleteSubTaskFromEpic(Epic epic) {
         epic.getSubTasks().forEach(subTask -> longSubTaskHashMap.remove(subTask.getId()));
         epic.deleteAllSubTasks();
     }
 
-
+    @Override
     public void deleteAllSubTask() {
         for (SubTask subTask : longSubTaskHashMap.values()
         ) {
@@ -74,61 +79,49 @@ public class Manager {
         longSubTaskHashMap.clear();
     }
 
-
+    @Override
     public ArrayList<Task> getAllTask() {
         return new ArrayList<>(longTaskHashMap.values());
     }
 
-
+    @Override
     public ArrayList<Task> getAllEpic() {
         return new ArrayList<>(longEpicHashMap.values());
     }
 
-
+    @Override
     public ArrayList<Task> getAllSubTask() {
         return new ArrayList<>(longSubTaskHashMap.values());
     }
 
-
+    @Override
     public ArrayList<Task> getSubTaskForEpic(Epic epic) {
         return epic.getSubTasks();
     }
 
-
+    @Override
     public void updateTask(Task task) {
         if (task != null) {
-            longTaskHashMap.put(task.getId(), task);
-        } else {
-            System.out.println("При обновлении данный произошла ошибка, отправьте корректные данные для обновления.");
-        }
-
-    }
-
-
-    public void updateEpic(Epic epic) {
-        if (epic != null) {
-            longEpicHashMap.put(epic.getId(), epic);
-        } else {
-            System.out.println("При обновлении данный произошла ошибка, отправьте корректные данные для обновления.");
-        }
-    }
-
-
-    public void updateSubTask(SubTask subTask) {
-        if (subTask != null) {
-            for (int i = 0; i < subTask.getEpic().getSubTasks().size(); i++) {
-                if (subTask.getEpic().getSubTasks().get(i).getId() == subTask.getId()) {
-                    subTask.getEpic().getSubTasks().set(i, subTask);
+            if (task instanceof SubTask) {
+                SubTask subTask = (SubTask) task;
+                for (int i = 0; i < subTask.getEpic().getSubTasks().size(); i++) {
+                    if (subTask.getEpic().getSubTasks().get(i).getId() == subTask.getId()) {
+                        subTask.getEpic().getSubTasks().set(i, subTask);
+                    }
                 }
+                longSubTaskHashMap.put(subTask.getId(), subTask);
+                checkEpicStatus(subTask.getEpic());
+            } else if (task instanceof Epic) {
+                Epic epic = (Epic) task;
+                longEpicHashMap.put(epic.getId(), epic);
+            } else {
+                longTaskHashMap.put(task.getId(), task);
+
             }
-            longSubTaskHashMap.put(subTask.getId(), subTask);
-            checkEpicStatus(subTask.getEpic());
         } else {
             System.out.println("При обновлении данный произошла ошибка, отправьте корректные данные для обновления.");
         }
-
     }
-
 
     private void checkEpicStatus(Epic epic) {
         ArrayList<Task> list = epic.getSubTasks();
@@ -145,15 +138,26 @@ public class Manager {
         }
     }
 
+    @Override
     public Epic getEpic(long id) {
+        historyManagers.add(id);
         return longEpicHashMap.get(id);
     }
 
+    @Override
+    public List<Task> getHistory() {
+        return historyManagers.getHistory();
+    }
+
+    @Override
     public Task getTask(long id) {
+        historyManagers.add(id);
         return longTaskHashMap.get(id);
     }
 
+    @Override
     public SubTask getSubTask(long id) {
+        historyManagers.add(id);
         return longSubTaskHashMap.get(id);
     }
 }
