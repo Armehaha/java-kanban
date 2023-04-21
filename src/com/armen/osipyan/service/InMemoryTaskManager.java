@@ -34,14 +34,13 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteSubTask(long idSubTask) {
         longSubTaskHashMap.get(idSubTask).getEpic().getSubTasks().removeIf(subTask -> subTask.getId() == idSubTask);
         longSubTaskHashMap.remove(idSubTask);
-        longEpicHashMap.clear();
-        historyTask.remove(idSubTask);
+        historyTask.remove(longSubTaskHashMap.get(idSubTask));
     }
 
     @Override
     public void deleteTask(long id) {
         longTaskHashMap.remove(id);
-        historyTask.remove(id);
+        historyTask.remove(longTaskHashMap.get(id));
     }
 
 
@@ -49,7 +48,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteEpic(long id) {
         longEpicHashMap.get(id).getSubTasks().forEach(subTask -> longSubTaskHashMap.remove(subTask.getId()));
         longEpicHashMap.remove(id);
-        historyTask.remove(id);
+        historyTask.remove(longEpicHashMap.get(id));
     }
 
     @Override
@@ -140,7 +139,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic getEpic(long id) {
-        historyManagers.add(id);
+        historyManagers.add(longEpicHashMap.get(id));
         return longEpicHashMap.get(id);
     }
 
@@ -151,13 +150,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTask(long id) {
-        historyManagers.add(id);
+        historyManagers.add(longTaskHashMap.get(id));
         return longTaskHashMap.get(id);
     }
 
     @Override
     public SubTask getSubTask(long id) {
-        historyManagers.add(id);
+        historyManagers.add(longSubTaskHashMap.get(id));
         return longSubTaskHashMap.get(id);
     }
 }
