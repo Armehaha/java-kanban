@@ -9,12 +9,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.armen.osipyan.service.InMemoryHistoryManager.historyTask;
+
 public class Managers {
     public static long id = 1;
     protected static final HashMap<Long, Task> longTaskHashMap = new HashMap<>();
     protected static final HashMap<Long, Epic> longEpicHashMap = new HashMap<>();
     protected static final HashMap<Long, SubTask> longSubTaskHashMap = new HashMap<>();
-    protected static final List<Task> historyTask = new ArrayList<>(10);
 
     public static TaskManager getDefault() {
         return new TaskManager() {

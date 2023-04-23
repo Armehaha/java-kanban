@@ -8,6 +8,7 @@ import com.armen.osipyan.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.armen.osipyan.service.InMemoryHistoryManager.historyTask;
 import static com.armen.osipyan.service.Managers.*;
 
 public class InMemoryTaskManager implements TaskManager {
