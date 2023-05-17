@@ -7,7 +7,7 @@ import com.armen.osipyan.service.TaskManager;
 
 public class Main {
 
-    public static void main(String[] args) {
+     public static void main(String[] args) {
         TaskManager manager = Managers.getDefault();
 
         manager.createTask(new Task(Managers.id++,"Подготовить скрипты для вывода в прод",
