@@ -1,7 +1,8 @@
 package com.armen.osipyan.model;
 
+
 public class Task {
-    private final long id;
+    private final int id;
     private String name;
     private String formulation;
     private Status status;
@@ -15,14 +16,14 @@ public class Task {
         this.status = status;
     }
 
-    public Task(long id, String name, String formulation, Status status) {
+    public Task(int id, String name, String formulation, Status status) {
         this.id = id;
         this.name = name;
         this.formulation = formulation;
         this.status = status;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

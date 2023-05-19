@@ -10,7 +10,7 @@ public class Epic extends Task {
         return subTasks;
     }
 
-    public Epic(long id, String name, String formulation, Status status) {
+    public Epic(int id, String name, String formulation, Status status) {
         super(id, name, formulation, status);
         subTasks = new ArrayList<>();
     }

@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.armen.osipyan.service.InMemoryHistoryManager.historyTask;
 
 public class Managers {
-    public static long id = 1;
-    protected static final HashMap<Long, Task> longTaskHashMap = new HashMap<>();
-    protected static final HashMap<Long, Epic> longEpicHashMap = new HashMap<>();
-    protected static final HashMap<Long, SubTask> longSubTaskHashMap = new HashMap<>();
+    public static int id = 1;
+    protected static final HashMap<Integer, Task> longTaskHashMap = new HashMap<>();
+    protected static final HashMap<Integer, Epic> longEpicHashMap = new HashMap<>();
+    protected static final HashMap<Integer, SubTask> longSubTaskHashMap = new HashMap<>();
 
     public static TaskManager getDefault() {
         return new TaskManager() {
@@ -39,24 +38,24 @@ public class Managers {
             }
 
             @Override
-            public void deleteSubTask(long idSubTask) {
+            public void deleteSubTask(int idSubTask) {
                 longSubTaskHashMap.get(idSubTask).getEpic().getSubTasks().removeIf(subTask -> subTask.getId() == idSubTask);
                 longSubTaskHashMap.remove(idSubTask);
-                historyTask.remove(longSubTaskHashMap.get(idSubTask));
+                historyManagers.remove(idSubTask);
             }
 
             @Override
-            public void deleteTask(long id) {
+            public void deleteTask(int id) {
                 longTaskHashMap.remove(id);
-                historyTask.remove(longTaskHashMap.get(id));
+                historyManagers.remove(id);
             }
 
 
             @Override
-            public void deleteEpic(long id) {
+            public void deleteEpic(int id) {
                 longEpicHashMap.get(id).getSubTasks().forEach(subTask -> longSubTaskHashMap.remove(subTask.getId()));
                 longEpicHashMap.remove(id);
-                historyTask.remove(longEpicHashMap.get(id));
+                historyManagers.remove(id);
             }
 
             @Override
@@ -146,19 +145,19 @@ public class Managers {
             }
 
             @Override
-            public Epic getEpic(long id) {
+            public Epic getEpic(int id) {
                 historyManagers.add(longEpicHashMap.get(id));
                 return longEpicHashMap.get(id);
             }
 
             @Override
-            public Task getTask(long id) {
+            public Task getTask(int id) {
                 historyManagers.add(longTaskHashMap.get(id));
                 return longTaskHashMap.get(id);
             }
 
             @Override
-            public SubTask getSubTask(long id) {
+            public SubTask getSubTask(int id) {
                 historyManagers.add(longSubTaskHashMap.get(id));
                 return longSubTaskHashMap.get(id);
             }

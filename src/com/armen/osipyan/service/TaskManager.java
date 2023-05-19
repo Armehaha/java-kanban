@@ -14,11 +14,11 @@ public interface TaskManager {
 
     void createSubTask(Epic epic, SubTask subTask);
 
-    void deleteEpic(long id);
+    void deleteEpic(int id);
 
-    void deleteTask(long id);
+    void deleteTask(int id);
 
-    void deleteSubTask(long id);
+    void deleteSubTask(int id);
 
     void deleteAllTask();
 
@@ -38,11 +38,11 @@ public interface TaskManager {
 
     void updateTask(Task task);
 
-    Epic getEpic(long id);
+    Epic getEpic(int id);
 
-    Task getTask(long id);
+    Task getTask(int id);
 
-    SubTask getSubTask(long id);
+    SubTask getSubTask(int id);
 
     List<Task> getHistory();
 }

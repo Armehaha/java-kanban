@@ -8,7 +8,6 @@ import com.armen.osipyan.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.armen.osipyan.service.InMemoryHistoryManager.historyTask;
 import static com.armen.osipyan.service.Managers.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -32,25 +31,28 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteSubTask(long idSubTask) {
+    public void deleteSubTask(int idSubTask) {
         longSubTaskHashMap.get(idSubTask).getEpic().getSubTasks().removeIf(subTask -> subTask.getId() == idSubTask);
         longSubTaskHashMap.remove(idSubTask);
-        historyTask.remove(longSubTaskHashMap.get(idSubTask));
+        historyManagers.remove(idSubTask);
+
     }
 
     @Override
-    public void deleteTask(long id) {
+    public void deleteTask(int id) {
         longTaskHashMap.remove(id);
-        historyTask.remove(longTaskHashMap.get(id));
+        historyManagers.remove(id);
+
     }
 
 
     @Override
-    public void deleteEpic(long id) {
+    public void deleteEpic(int id) {
         longEpicHashMap.get(id).getSubTasks().forEach(subTask -> longSubTaskHashMap.remove(subTask.getId()));
         longEpicHashMap.remove(id);
-        historyTask.remove(longEpicHashMap.get(id));
+        historyManagers.remove(id);
     }
+
 
     @Override
     public void deleteAllTask() {
@@ -139,7 +141,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Epic getEpic(long id) {
+    public Epic getEpic(int id) {
         historyManagers.add(longEpicHashMap.get(id));
         return longEpicHashMap.get(id);
     }
@@ -150,13 +152,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Task getTask(long id) {
+    public Task getTask(int id) {
         historyManagers.add(longTaskHashMap.get(id));
         return longTaskHashMap.get(id);
     }
 
     @Override
-    public SubTask getSubTask(long id) {
+    public SubTask getSubTask(int id) {
         historyManagers.add(longSubTaskHashMap.get(id));
         return longSubTaskHashMap.get(id);
     }
