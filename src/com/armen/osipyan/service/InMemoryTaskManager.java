@@ -11,7 +11,7 @@ import java.util.List;
 import static com.armen.osipyan.service.Managers.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    HistoryManagers historyManagers = Managers.getDefaultHistory();
+    final HistoryManagers historyManagers = getDefaultHistory();
 
     @Override
     public void createTask(Task task) {
@@ -35,14 +35,12 @@ public class InMemoryTaskManager implements TaskManager {
         longSubTaskHashMap.get(idSubTask).getEpic().getSubTasks().removeIf(subTask -> subTask.getId() == idSubTask);
         longSubTaskHashMap.remove(idSubTask);
         historyManagers.remove(idSubTask);
-
     }
 
     @Override
     public void deleteTask(int id) {
         longTaskHashMap.remove(id);
         historyManagers.remove(id);
-
     }
 
 
@@ -52,7 +50,6 @@ public class InMemoryTaskManager implements TaskManager {
         longEpicHashMap.remove(id);
         historyManagers.remove(id);
     }
-
 
     @Override
     public void deleteAllTask() {
@@ -147,11 +144,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public List<Task> getHistory() {
-        return historyManagers.getHistory();
-    }
-
-    @Override
     public Task getTask(int id) {
         historyManagers.add(longTaskHashMap.get(id));
         return longTaskHashMap.get(id);
@@ -162,4 +154,10 @@ public class InMemoryTaskManager implements TaskManager {
         historyManagers.add(longSubTaskHashMap.get(id));
         return longSubTaskHashMap.get(id);
     }
+
+    @Override
+    public List<Task> getHistory() {
+        return historyManagers.getHistory();
+    }
 }
+
