@@ -2,9 +2,9 @@ package com.armen.osipyan.model;
 
 
 public class Task {
-    private final int id;
+    private  int id;
     private String name;
-    private String formulation;
+    private String description;
     private Status status;
 
 
@@ -19,7 +19,7 @@ public class Task {
     public Task(int id, String name, String formulation, Status status) {
         this.id = id;
         this.name = name;
-        this.formulation = formulation;
+        this.description = formulation;
         this.status = status;
     }
 
@@ -32,19 +32,22 @@ public class Task {
         return name;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setName(String name) {
         this.name = name;
     }
 
 
-    public String getFormulation() {
-        return formulation;
+    public String getDescription() {
+        return description;
     }
 
 
-    public void setFormulation(String formulation) {
-        this.formulation = formulation;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 
@@ -53,7 +56,7 @@ public class Task {
         return "Task{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", formulation='" + formulation + '\'' +
+                ", formulation='" + description + '\'' +
                 '}';
     }
 }

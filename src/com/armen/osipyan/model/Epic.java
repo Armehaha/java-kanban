@@ -2,11 +2,12 @@ package com.armen.osipyan.model;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Epic extends Task {
-    private final ArrayList<Task> subTasks;
+    private final List<Task> subTasks;
 
-    public ArrayList<Task> getSubTasks() {
+    public List<Task> getSubTasks() {
         return subTasks;
     }
 
@@ -29,7 +30,7 @@ public class Epic extends Task {
         return "Epic{" +
                 "id=" + this.getId() +
                 ", name='" + this.getName() + '\'' +
-                ", formulation='" + this.getFormulation() + '\'' +
+                ", formulation='" + this.getDescription() + '\'' +
                 "subTasks=" + subTasks.toString() +
                 '}';
     }

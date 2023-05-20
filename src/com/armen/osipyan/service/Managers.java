@@ -10,10 +10,7 @@ import java.util.HashMap;
 
 
 public class Managers {
-    public static int id = 1;
-    protected static final HashMap<Integer, Task> longTaskHashMap = new HashMap<>();
-    protected static final HashMap<Integer, Epic> longEpicHashMap = new HashMap<>();
-    protected static final HashMap<Integer, SubTask> longSubTaskHashMap = new HashMap<>();
+
 
     public static TaskManager getDefault() {
         return new InMemoryTaskManager();

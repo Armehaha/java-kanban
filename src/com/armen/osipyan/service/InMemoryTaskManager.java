@@ -6,27 +6,38 @@ import com.armen.osipyan.model.SubTask;
 import com.armen.osipyan.model.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.armen.osipyan.service.Managers.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    final HistoryManagers historyManagers = getDefaultHistory();
+    public static int id = 1;
+    protected  final HashMap<Integer, Task> longTaskHashMap = new HashMap<>();
+    protected  final HashMap<Integer, Epic> longEpicHashMap = new HashMap<>();
+    protected  final HashMap<Integer, SubTask> longSubTaskHashMap = new HashMap<>();
+  private   final HistoryManagers historyManagers = getDefaultHistory();
 
     @Override
     public void createTask(Task task) {
+        task.setId(id++);
         longTaskHashMap.put(task.getId(), task);
+
     }
 
     @Override
     public void createEpic(Epic epic) {
+        epic.setId(id++);
         longEpicHashMap.put(epic.getId(), epic);
+
     }
 
     @Override
     public void createSubTask(Epic epic, SubTask subTask) {
+        subTask.setId(id++);
         epic.addSubTasks(subTask);
         longSubTaskHashMap.put(subTask.getId(), subTask);
+        id++;
 
     }
 
@@ -94,7 +105,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getSubTaskForEpic(Epic epic) {
+    public List<Task> getSubTaskForEpic(Epic epic) {
         return epic.getSubTasks();
     }
 
@@ -123,7 +134,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void checkEpicStatus(Epic epic) {
-        ArrayList<Task> list = epic.getSubTasks();
+        List<Task> list = epic.getSubTasks();
         for (Task t : list) {
             int count = 0;
             if (t.getStatus() == Status.IN_PROGRESS) {

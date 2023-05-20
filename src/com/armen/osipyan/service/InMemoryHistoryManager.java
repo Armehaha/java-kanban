@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManagers {
-    protected static final CustomLinkedList historyTask = new CustomLinkedList();
-    protected static final Map<Integer, Node<Task>> tasks = new HashMap<>();
+    protected final CustomLinkedList historyTask = new CustomLinkedList();
+    protected  final Map<Integer, Node<Task>> tasks = new HashMap<>();
 
     @Override
     public void add(Task task) {
@@ -36,10 +36,7 @@ public class InMemoryHistoryManager implements HistoryManagers {
         return historyTask.getTasks();
     }
 
-    static class CustomLinkedList {
-
-
-        private int size = 0;
+   class CustomLinkedList {
         private Node<Task> first;
         private Node<Task> last;
 
@@ -51,12 +48,11 @@ public class InMemoryHistoryManager implements HistoryManagers {
                 first = newNode;
             else
                 l.setNext(newNode);
-            size++;
-            tasks.put(e.getId(), newNode);
+               tasks.put(e.getId(), newNode);
         }
 
         public List<Task> getTasks() {
-            final ArrayList<Task> taskList = new ArrayList<>();
+            final List<Task> taskList = new ArrayList<>();
             Node<Task> node = first;
             while (node != null) {
                 taskList.add(node.getItem());
@@ -64,11 +60,6 @@ public class InMemoryHistoryManager implements HistoryManagers {
             }
             return taskList;
         }
-
-        public int getSize() {
-            return size;
-        }
-
         void removeNode(Node<Task> node) {
             final Node<Task> next = node.getNext();
             final Node<Task> prev = node.getPrev();
@@ -87,7 +78,7 @@ public class InMemoryHistoryManager implements HistoryManagers {
                 node.setNext(null);
             }
             node.setItem(null);
-            size--;
+
 
         }
     }

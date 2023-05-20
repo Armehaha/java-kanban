@@ -21,7 +21,7 @@ public class SubTask extends Task {
         return "SubTask{" +
                 "id=" + this.getId() +
                 ", name='" + this.getName() + '\'' +
-                ", formulation='" + this.getFormulation() + '\'' +
+                ", formulation='" + this.getDescription() + '\'' +
                 "epic=" + epic.getName() +
                 '}';
     }
