@@ -13,10 +13,10 @@ import static com.armen.osipyan.service.Managers.*;
 
 public class InMemoryTaskManager implements TaskManager {
     public static int id = 1;
-    protected  final HashMap<Integer, Task> longTaskHashMap = new HashMap<>();
-    protected  final HashMap<Integer, Epic> longEpicHashMap = new HashMap<>();
-    protected  final HashMap<Integer, SubTask> longSubTaskHashMap = new HashMap<>();
-  private   final HistoryManagers historyManagers = getDefaultHistory();
+    protected final HashMap<Integer, Task> longTaskHashMap = new HashMap<>();
+    protected final HashMap<Integer, Epic> longEpicHashMap = new HashMap<>();
+    protected final HashMap<Integer, SubTask> longSubTaskHashMap = new HashMap<>();
+    private final HistoryManagers historyManagers = getDefaultHistory();
 
     @Override
     public void createTask(Task task) {
@@ -64,11 +64,20 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllTask() {
+        for (Task task : longTaskHashMap.values()) {
+            historyManagers.remove(task.getId());
+        }
         longTaskHashMap.clear();
     }
 
     @Override
     public void deleteAllEpic() {
+        for (Task task : longSubTaskHashMap.values()) {
+            historyManagers.remove(task.getId());
+        }
+        for (Task task : longEpicHashMap.values()) {
+            historyManagers.remove(task.getId());
+        }
         longSubTaskHashMap.clear();
         longEpicHashMap.clear();
     }
@@ -77,11 +86,17 @@ public class InMemoryTaskManager implements TaskManager {
     //на мой взгляд странно будет удалять просто все подзадачи не обращая внимания на эпики , поэтому сделал два метода
     public void deleteSubTaskFromEpic(Epic epic) {
         epic.getSubTasks().forEach(subTask -> longSubTaskHashMap.remove(subTask.getId()));
+        for (Task task : epic.getSubTasks()) {
+            historyManagers.remove(task.getId());
+        }
         epic.deleteAllSubTasks();
     }
 
     @Override
     public void deleteAllSubTask() {
+        for (Task task : longSubTaskHashMap.values()) {
+            historyManagers.remove(task.getId());
+        }
         for (SubTask subTask : longSubTaskHashMap.values()
         ) {
             subTask.getEpic().deleteAllSubTasks();
