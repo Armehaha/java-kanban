@@ -2,12 +2,18 @@ import com.armen.osipyan.model.Epic;
 import com.armen.osipyan.model.Status;
 import com.armen.osipyan.model.SubTask;
 import com.armen.osipyan.model.Task;
+import com.armen.osipyan.service.FileBackedTasksManager;
 import com.armen.osipyan.service.Managers;
 import com.armen.osipyan.service.TaskManager;
 
+
+import java.io.IOException;
+
+import java.nio.file.Paths;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         TaskManager manager = Managers.getDefault();
 
         manager.createTask(new Task(1, "Подготовить скрипты для вывода в прод",
@@ -16,13 +22,13 @@ public class Main {
         manager.createTask(new Task(1, "добавить настройки услуги",
                 "добавьте в таблицу настрйки для новой услуги", Status.NEW));
 
-        System.out.println(manager.getAllTask());
+//        System.out.println(manager.getAllTask());
         Epic epic = new Epic(1, "Редирект с 10700 на 606204", "редирект с одной услуги на другую", Status.NEW);
         manager.createEpic(epic);
 //        System.out.println(manager.getAllEpic());
         manager.createSubTask(epic, new SubTask(1, "фронт", "фронт", Status.NEW));
         manager.createSubTask(epic, new SubTask(2, "бэк", "бэк", Status.NEW));
-        System.out.println(manager.getAllSubTask());
+//        System.out.println(manager.getAllSubTask());
 
 //        System.out.println(manager.getAllSubTask());
 //        System.out.println(manager.getAllEpic());
@@ -37,9 +43,19 @@ public class Main {
 //        System.out.println(manager.getTask(1));
 //        System.out.println(manager.getEpic(3));
 //        System.out.println(manager.getSubTask(4));
-        System.out.println(manager.getEpic(3));
-        System.out.println(manager.getEpic(3));
-        System.out.println(manager.getEpic(3));
-        System.out.println(manager.getHistory());
+//        System.out.println(manager.getEpic(3));
+//        System.out.println(manager.getEpic(3));
+//        System.out.println(manager.getEpic(3));
+//        System.out.println(manager.getHistory());
+
+        TaskManager fileBackedTasksManager = new FileBackedTasksManager(Paths.get("resource","\\tasks.csv"));
+        fileBackedTasksManager.createTask(new Task(1, "добавить настройки услуги",
+                "добавьте в таблицу настрйки для новой услуги", Status.NEW));
+        fileBackedTasksManager.getTask(10);
+//        fileBackedTasksManager.createEpic(epic);
+        fileBackedTasksManager.createEpic(epic2);
+        fileBackedTasksManager.createEpic(epic3);
+        fileBackedTasksManager.getEpic(12);
+
     }
 }

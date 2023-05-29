@@ -16,7 +16,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Task> longTaskHashMap = new HashMap<>();
     protected final HashMap<Integer, Epic> longEpicHashMap = new HashMap<>();
     protected final HashMap<Integer, SubTask> longSubTaskHashMap = new HashMap<>();
-    private final HistoryManagers historyManagers = getDefaultHistory();
+    protected final HistoryManagers historyManagers = getDefaultHistory();
 
     @Override
     public void createTask(Task task) {
@@ -83,12 +83,11 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    //на мой взгляд странно будет удалять просто все подзадачи не обращая внимания на эпики , поэтому сделал два метода
     public void deleteSubTaskFromEpic(Epic epic) {
-        epic.getSubTasks().forEach(subTask -> longSubTaskHashMap.remove(subTask.getId()));
-        for (Task task : epic.getSubTasks()) {
-            historyManagers.remove(task.getId());
-        }
+        epic.getSubTasks().forEach(subTask -> {
+            longSubTaskHashMap.remove(subTask.getId());
+            historyManagers.remove(subTask.getId());
+        });
         epic.deleteAllSubTasks();
     }
 
@@ -105,17 +104,17 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public ArrayList<Task> getAllTask() {
+    public List<Task> getAllTask() {
         return new ArrayList<>(longTaskHashMap.values());
     }
 
     @Override
-    public ArrayList<Task> getAllEpic() {
+    public List<Task> getAllEpic() {
         return new ArrayList<>(longEpicHashMap.values());
     }
 
     @Override
-    public ArrayList<Task> getAllSubTask() {
+    public List<Task> getAllSubTask() {
         return new ArrayList<>(longSubTaskHashMap.values());
     }
 

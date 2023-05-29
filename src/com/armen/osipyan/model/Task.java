@@ -2,7 +2,7 @@ package com.armen.osipyan.model;
 
 
 public class Task {
-    private  int id;
+    private int id;
     private String name;
     private String description;
     private Status status;
@@ -59,4 +59,6 @@ public class Task {
                 ", formulation='" + description + '\'' +
                 '}';
     }
+
+
 }

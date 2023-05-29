@@ -28,11 +28,11 @@ public interface TaskManager {
 
     void deleteAllSubTask();
 
-    ArrayList<Task> getAllTask();
+    List<Task> getAllTask();
 
-    ArrayList<Task> getAllEpic();
+    List<Task> getAllEpic();
 
-    ArrayList<Task> getAllSubTask();
+    List<Task> getAllSubTask();
 
     List<Task> getSubTaskForEpic(Epic epic);
 
