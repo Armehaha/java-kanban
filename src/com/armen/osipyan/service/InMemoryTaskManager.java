@@ -34,6 +34,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createSubTask(Epic epic, SubTask subTask) {
+        if (!longEpicHashMap.containsKey(epic.getId())){
+            createEpic(epic);
+        }
         subTask.setId(id++);
         epic.addSubTasks(subTask);
         longSubTaskHashMap.put(subTask.getId(), subTask);

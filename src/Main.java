@@ -32,7 +32,7 @@ public class Main {
         manager.createSubTask(epic, new SubTask(2, "бэк", "бэк", Status.NEW));
 
         Epic epic2 = new Epic(3, "обновление услуги", "обновление услуги", Status.NEW);
-        epic2.addSubTasks(new SubTask(3, "back", "back", Status.NEW));
+        manager.createSubTask(epic2,new SubTask(3, "back", "back", Status.NEW));
         manager.createEpic(epic2);
         Epic epic3 = new Epic(3, "обновление услуги", "обновление услуги", Status.NEW);
         manager.createEpic(epic3);
@@ -42,16 +42,38 @@ public class Main {
 
             //создаю такого же менеджера только уже из существующего файла
         FileBackedTasksManager fileBackedTasksManager = loadFromFile(Paths.get("resource", "\\tasks.csv"));
-        System.out.println(fileBackedTasksManager.getHistory());
-        System.out.println(fileBackedTasksManager.getAllEpic());
-        System.out.println(fileBackedTasksManager.getHistory());
 
-        //сравнение всех эпиков
-        System.out.println(manager.getAllEpic().equals(fileBackedTasksManager.getAllEpic()));
         //сравнение обычных задач
-        System.out.println(manager.getAllTask().equals(fileBackedTasksManager.getAllTask()));
-        //сравнение подхадач
-        System.out.println(manager.getAllSubTask().equals(fileBackedTasksManager.getAllSubTask()));
+        boolean flag = false;
+        //сравнение всех эпиков
+        System.out.println("\n\n\nЭпики первого менеджера :" +manager.getAllEpic()+"\n"+"Эпики второго менеджера :"+fileBackedTasksManager.getAllEpic());
+        for (int i = 0; i < manager.getAllEpic().size(); i++) {
+            flag = manager.getAllEpic().get(i).equals(fileBackedTasksManager.getAllEpic().get(i));
+            if (!flag){
+                break;
+            }
+        }
+        System.out.println("Одинаковые ли эпики у менеджеров? " + flag);
+        //сравнение простых задач
+        System.out.println("Задачи первого менеджера :" +manager.getAllTask()+"\n"+"Задачи второго менеджера :"+fileBackedTasksManager.getAllTask());
+        for (int i = 0; i < manager.getAllTask().size(); i++) {
+            flag = manager.getAllTask().get(i).equals(fileBackedTasksManager.getAllTask().get(i));
+            if (!flag){
+                break;
+            }
+        }
+        System.out.println("Одинаковые ли задачи у менеджеров? " + flag);
+        //сравнение подзадач
+        System.out.println("Подзадачи первого менеджера :" +manager.getAllSubTask()+"\n"+"Подзадачи второго менеджера :"+fileBackedTasksManager.getAllSubTask());
+
+        for (int i = 0; i < manager.getAllSubTask().size(); i++) {
+            flag = manager.getAllSubTask().get(i).equals(fileBackedTasksManager.getAllSubTask().get(i));
+            if (!flag){
+                break;
+            }
+        }
+        System.out.println("Одинаковые ли подзадачи у менеджеров? " + flag);
+
         //сревнение истории
         System.out.println(manager.getHistory().equals(fileBackedTasksManager.getHistory()));
 
