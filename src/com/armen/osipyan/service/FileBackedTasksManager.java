@@ -1,7 +1,9 @@
 package com.armen.osipyan.service;
 
 
+import com.armen.osipyan.exception.ManagerSaveException;
 import com.armen.osipyan.model.*;
+import com.armen.osipyan.util.Formatter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -10,9 +12,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
+import static com.armen.osipyan.util.Formatter.historyFromString;
+import static com.armen.osipyan.util.Formatter.historyToString;
 import static java.nio.file.StandardOpenOption.APPEND;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
@@ -120,17 +124,19 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private void save() {
         try {
+
             Files.deleteIfExists(path);
             Path test = Files.createFile(path);
             Files.writeString(test, "id,type,name,status,description,epic\n", APPEND);
             for (Task task : longTaskHashMap.values()) {
-                Files.writeString(path, toString(task) + "\n", APPEND);
+
+                Files.writeString(path, Formatter.toString(task) + "\n", APPEND);
             }
             for (Task epic : longEpicHashMap.values()) {
-                Files.writeString(path, toString(epic) + "\n", APPEND);
+                Files.writeString(path, Formatter.toString(epic) + "\n", APPEND);
             }
             for (Task subTask : longSubTaskHashMap.values()) {
-                Files.writeString(path, toString(subTask) + "\n", APPEND);
+                Files.writeString(path, Formatter.toString(subTask) + "\n", APPEND);
             }
             if (historyManagers.getHistory().size() != 0) {
                 Files.writeString(path, "\n" + historyToString(historyManagers), APPEND);
@@ -138,21 +144,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         } catch (IOException e) {
             throw new ManagerSaveException();
         }
-    }
-
-    private static String historyToString(HistoryManagers manager) {
-        List<String> list = new ArrayList<>();
-        manager.getHistory().forEach(el -> list.add(String.valueOf(el.getId())));
-        return String.join(",", list);
-    }
-
-    private static List<Integer> historyFromString(String value) {
-        List<Integer> list = new ArrayList<>();
-        String[] historyInfo = value.split(",");
-        for (String s : historyInfo) {
-            list.add(Integer.valueOf(s));
-        }
-        return list;
     }
 
 
@@ -204,32 +195,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         }
 
         return null;
-    }
-
-    public String toString(Task task) {
-        StringBuilder info = new StringBuilder();
-        info.append(task.getId());
-        info.append(",");
-        if (task instanceof SubTask) {
-            info.append(TaskType.SUBTASK);
-            info.append(",");
-        } else if (task instanceof Epic) {
-            info.append(TaskType.EPIC);
-            info.append(",");
-        } else {
-            info.append(TaskType.TASK);
-            info.append(",");
-        }
-        info.append(task.getName());
-        info.append(",");
-        info.append(task.getStatus());
-        info.append(",");
-        info.append(task.getDescription());
-        if (task instanceof SubTask) {
-            info.append(",");
-            info.append(((SubTask) task).getEpic().getId());
-        }
-        return info.toString();
     }
 
 

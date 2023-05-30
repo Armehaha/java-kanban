@@ -1,4 +1,4 @@
-package com.armen.osipyan.model;
+package com.armen.osipyan.exception;
 
 public class ManagerSaveException extends RuntimeException {
 }

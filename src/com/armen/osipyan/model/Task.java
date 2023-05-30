@@ -1,6 +1,8 @@
 package com.armen.osipyan.model;
 
 
+import java.util.Objects;
+
 public class Task {
     private int id;
     private String name;
@@ -60,5 +62,16 @@ public class Task {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && Objects.equals(name, task.name) && Objects.equals(description, task.description) && status == task.status;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, status);
+    }
 }
