@@ -1,20 +1,40 @@
 package com.armen.osipyan.model;
 
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class Epic extends Task {
     private final List<Task> subTasks;
+    private LocalDateTime endTime;
 
     public List<Task> getSubTasks() {
         return subTasks;
     }
 
-    public Epic(int id, String name, String formulation, Status status) {
-        super(id, name, formulation, status);
-        subTasks = new ArrayList<>();
+    public Epic(int id, String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        super(id, name, description, status, duration, startTime);
+        this.subTasks = new ArrayList<>();
+
+    }
+
+    public Epic(int id, String name, String description, Status status) {
+        super(id, name, description, status, Duration.ZERO, null);
+        this.subTasks = new ArrayList<>();
+
+    }
+    public Epic(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        super( name, description, status, duration, startTime);
+        this.subTasks = new ArrayList<>();
+
+    }
+    public Epic(String name, String description, Status status) {
+        super( name, description, status, Duration.ZERO, null);
+        this.subTasks = new ArrayList<>();
+
     }
 
     public void addSubTasks(SubTask subTask) {
@@ -27,6 +47,16 @@ public class Epic extends Task {
     }
 
     @Override
+    public LocalDateTime getEndTime() {
+
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Override
     public String toString() {
         return "Epic{" +
                 "id=" + this.getId() +
@@ -35,7 +65,7 @@ public class Epic extends Task {
                 "subTasks=" + subTasks.toString() +
                 '}';
     }
-//если тут буду вызывать метод eauals subTask то происходит рекурсия и все падает, поэтому переписал сравнения руками
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

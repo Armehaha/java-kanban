@@ -1,0 +1,14 @@
+import com.armen.osipyan.service.InMemoryTaskManager;
+
+import org.junit.jupiter.api.BeforeEach;
+
+
+public class InMemoryTaskManagerTest extends TaskManagerTest <InMemoryTaskManager> {
+
+    @BeforeEach
+    public void createTaskManager() {
+        taskManager = new InMemoryTaskManager();
+    }
+
+
+}

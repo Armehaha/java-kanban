@@ -47,6 +47,23 @@ public class Formatter {
         if (task instanceof SubTask) {
             info.append(",");
             info.append(((SubTask) task).getEpic().getId());
+        }else {
+            info.append(",");
+            info.append(" ");
+        }
+        info.append(",");
+        if (task.getDuration() == null) {
+            info.append("null");
+        }else {
+            info.append(task.getDuration().toMinutes());
+
+        }
+        info.append(",");
+        if (task.getStartTime()==null){
+            info.append("null");
+        } else {
+            info.append(task.getStartTime().toString());
+
         }
         return info.toString();
     }

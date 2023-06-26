@@ -1,5 +1,7 @@
 package com.armen.osipyan.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class SubTask extends Task {
@@ -14,9 +16,20 @@ public class SubTask extends Task {
         this.epic = epic;
     }
 
-    public SubTask(int id, String name, String formulation, Status status) {
-        super(id, name, formulation, status);
+    public SubTask(int id, String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        super(id, name, description, status, duration, startTime);
+
     }
+
+    public SubTask(int id,String name, String description, Status status, Duration duration, LocalDateTime startTime, Epic epic) {
+        super(id,name, description, status, duration, startTime);
+        this.epic = epic;
+    }
+    public SubTask(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        super(name, description, status, duration, startTime);
+    }
+
+
 
     @Override
     public String toString() {

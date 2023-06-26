@@ -13,6 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.armen.osipyan.util.Formatter.historyFromString;
@@ -127,7 +129,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
             Files.deleteIfExists(path);
             Path test = Files.createFile(path);
-            Files.writeString(test, "id,type,name,status,description,epic\n", APPEND);
+            Files.writeString(test, "id,type,name,status,description,epic,duration,localDateTime\n", APPEND);
             for (Task task : longTaskHashMap.values()) {
 
                 Files.writeString(path, Formatter.toString(task) + "\n", APPEND);
@@ -150,25 +152,33 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     //пока нет идей как сократить этот огромный метод к сожалению
     public static FileBackedTasksManager loadFromFile(Path oldPath) {
 
+
         try {
             List<String> lineList = Files.readAllLines(oldPath);
+            if (lineList.size()<=1){
+               return null;
+            }
             FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(oldPath);
             for (int i = 1; i < lineList.size() - 2; i++) {
                 String[] taskFromFile = lineList.get(i).split(",");
+                if (taskFromFile[7].equals("null")){
+                    taskFromFile[7] = LocalDateTime.MIN.toString();
+                }
                 switch (TaskType.valueOf(taskFromFile[1])) {
                     case TASK:
                         fileBackedTasksManager.longTaskHashMap.put(Integer.valueOf(taskFromFile[0]),
                                 new Task(Integer.parseInt(taskFromFile[0]),
-                                        taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3])));
+                                        taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3]),
+                                        Duration.ofMinutes(Long.parseLong(taskFromFile[6])), LocalDateTime.parse(taskFromFile[7])));
                         break;
                     case EPIC:
                         fileBackedTasksManager.longEpicHashMap.put(Integer.valueOf(taskFromFile[0]),
                                 new Epic(Integer.parseInt(taskFromFile[0]),
-                                        taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3])));
+                                        taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3]),Duration.ofMinutes(Long.parseLong(taskFromFile[6])), LocalDateTime.parse(taskFromFile[7])));
                         break;
                     case SUBTASK:
                         SubTask subTask = new SubTask(Integer.parseInt(taskFromFile[0]),
-                                taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3]));
+                                taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3]),Duration.ofMinutes(Long.parseLong(taskFromFile[6])), LocalDateTime.parse(taskFromFile[7]));
 
                         subTask.setEpic(fileBackedTasksManager.longEpicHashMap.get(Integer.valueOf(taskFromFile[5])));
                         subTask.getEpic().getSubTasks().add(subTask);
