@@ -21,14 +21,14 @@ public class SubTask extends Task {
 
     }
 
-    public SubTask(int id,String name, String description, Status status, Duration duration, LocalDateTime startTime, Epic epic) {
-        super(id,name, description, status, duration, startTime);
+    public SubTask(int id, String name, String description, Status status, Duration duration, LocalDateTime startTime, Epic epic) {
+        super(id, name, description, status, duration, startTime);
         this.epic = epic;
     }
+
     public SubTask(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
         super(name, description, status, duration, startTime);
     }
-
 
 
     @Override
@@ -41,17 +41,6 @@ public class SubTask extends Task {
                 '}';
     }
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        if (!super.equals(o)) return false;
-//        SubTask subTask = (SubTask) o;
-//        if (epic == subTask.epic) return true;
-//        if (subTask.epic == null || epic.getClass() != subTask.epic.getClass()) return false;
-//        if (!epic.equals(subTask.epic)) return false;
-//        return epic.getId() ==subTask.epic.getId()&&epic.getName().equals(subTask.epic.getName())&&epic.getDescription().equals(subTask.epic.getDescription())&& epic.getStatus()==subTask.getStatus();
-//    }
 
     @Override
     public boolean equals(Object o) {
