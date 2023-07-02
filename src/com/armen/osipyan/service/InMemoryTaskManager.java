@@ -61,9 +61,21 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void deleteSubTask(int idSubTask) {
+    public void createSubTask(SubTask subTask) {
 
-        longSubTaskHashMap.get(idSubTask).getEpic().getSubTasks().removeIf(subTask -> subTask.getId() == idSubTask);
+        longSubTaskHashMap.put(subTask.getId(), subTask);
+
+
+        prioritizedTasks.add(subTask);
+
+    }
+
+    @Override
+    public void deleteSubTask(int idSubTask) {
+        if (longSubTaskHashMap.get(idSubTask).getEpic() != null) {
+            longSubTaskHashMap.get(idSubTask).getEpic().getSubTasks().removeIf(subTask -> subTask.getId() == idSubTask);
+        }
+
         prioritizedTasks.remove(longSubTaskHashMap.get(idSubTask));
         longSubTaskHashMap.remove(idSubTask);
         historyManagers.remove(idSubTask);
@@ -160,15 +172,19 @@ public class InMemoryTaskManager implements TaskManager {
             if (task instanceof SubTask) {
                 SubTask subTask = (SubTask) task;
                 prioritizedTasks.remove(task);
-
-                for (int i = 0; i < subTask.getEpic().getSubTasks().size(); i++) {
-                    if (subTask.getEpic().getSubTasks().get(i).getId() == subTask.getId()) {
-                        subTask.getEpic().getSubTasks().set(i, subTask);
+                if (subTask.getEpic() != null) {
+                    for (int i = 0; i < subTask.getEpic().getSubTasks().size(); i++) {
+                        if (subTask.getEpic().getSubTasks().get(i).getId() == subTask.getId()) {
+                            subTask.getEpic().getSubTasks().set(i, subTask);
+                        }
                     }
+                    longSubTaskHashMap.put(subTask.getId(), subTask);
+                    checkEpicStatus(subTask.getEpic());
+                    prioritizedTasks.add(subTask);
+                } else {
+                    longSubTaskHashMap.put(subTask.getId(), subTask);
+                    prioritizedTasks.add(subTask);
                 }
-                longSubTaskHashMap.put(subTask.getId(), subTask);
-                checkEpicStatus(subTask.getEpic());
-                prioritizedTasks.add(subTask);
             } else if (task instanceof Epic) {
                 Epic epic = (Epic) task;
                 longEpicHashMap.put(epic.getId(), epic);
@@ -232,11 +248,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     private boolean checkTime(Task task) {
         int count = 0;
-        if (task.getStartTime() == null||  prioritizedTask().size() == 0 ) {
+        if (task.getStartTime() == null || prioritizedTask().size() == 0) {
             return true;
         }
         for (Task prioritizedTask : prioritizedTask()) {
-            if (prioritizedTask.getStartTime()==null){
+            if (prioritizedTask.getStartTime() == null) {
                 continue;
             }
             if (!(task.getStartTime().isAfter(prioritizedTask.getEndTime()))) {
@@ -264,13 +280,13 @@ public class InMemoryTaskManager implements TaskManager {
                     endTime = task.getEndTime();
                     duration = task.getDuration();
                 } else {
-                    if (startTime == null){
+                    if (startTime == null) {
                         startTime = task.getStartTime();
                     }
                     if (task.getStartTime().isBefore(startTime)) {
                         startTime = task.getStartTime();
                     }
-                    if (endTime == null){
+                    if (endTime == null) {
                         endTime = task.getEndTime();
                     }
                     if (task.getEndTime().isAfter(endTime)) {

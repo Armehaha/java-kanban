@@ -14,6 +14,8 @@ public interface TaskManager {
 
     void createSubTask(Epic epic, SubTask subTask);
 
+    void createSubTask(SubTask subTask);
+
     void deleteEpic(int id);
 
     void deleteTask(int id);
@@ -45,5 +47,6 @@ public interface TaskManager {
     SubTask getSubTask(int id);
 
     List<Task> getHistory();
-  ArrayList<Task> prioritizedTask();
+
+    ArrayList<Task> prioritizedTask();
 }

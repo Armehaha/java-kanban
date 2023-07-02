@@ -1,8 +1,10 @@
+import com.armen.osipyan.http.HttpTaskServer;
 import com.armen.osipyan.model.Epic;
 import com.armen.osipyan.model.Status;
 import com.armen.osipyan.model.SubTask;
 import com.armen.osipyan.model.Task;
 import com.armen.osipyan.service.FileBackedTasksManager;
+import com.armen.osipyan.service.HttpTaskManager;
 import com.armen.osipyan.service.Managers;
 import com.armen.osipyan.service.TaskManager;
 
@@ -15,11 +17,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 
-import static com.armen.osipyan.service.FileBackedTasksManager.loadFromFile;
+
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         //создаю файлового менелджера и далее создаю и просматриваю задачи
         TaskManager manager = new FileBackedTasksManager(Paths.get("resource","\\tasks.csv"));
 //        manager.createTask(new Task(1, "Подготовить скрипты для вывода в прод",
@@ -90,10 +92,13 @@ public class Main {
 //        manager.getEpic(epicTask.getId());
 //        FileBackedTasksManager newTaskManager = FileBackedTasksManager.loadFromFile(Paths.get("resource","\\tasks.csv"));
 
-        Epic epicTask = new Epic("epic", "epic1", Status.NEW, Duration.ofMinutes(5), LocalDateTime.now());
+//        Epic epicTask = new Epic("epic", "epic1", Status.NEW, Duration.ofMinutes(5), LocalDateTime.now());
+//
+//        manager.createEpic(epicTask);
+//        manager.getEpic(epicTask.getId());
 
-        manager.createEpic(epicTask);
-        manager.getEpic(epicTask.getId());
+        HttpTaskServer httpTaskServer = new HttpTaskServer();
+
 
     }
 }

@@ -22,10 +22,14 @@ import static com.armen.osipyan.util.Formatter.historyToString;
 import static java.nio.file.StandardOpenOption.APPEND;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
-    private final Path path;
+    private Path path;
 
     public FileBackedTasksManager(Path path) throws FileNotFoundException {
         this.path = path;
+    }
+
+    public FileBackedTasksManager() {
+
     }
 
     public static void main(String[] args) {
@@ -124,7 +128,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
 
-    private void save() {
+    protected void save() {
         try {
 
             Files.deleteIfExists(path);
@@ -155,13 +159,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         try {
             List<String> lineList = Files.readAllLines(oldPath);
-            if (lineList.size()<=1){
-               return null;
+            if (lineList.size() <= 1) {
+                return null;
             }
             FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager(oldPath);
             for (int i = 1; i < lineList.size() - 2; i++) {
                 String[] taskFromFile = lineList.get(i).split(",");
-                if (taskFromFile[7].equals("null")){
+                if (taskFromFile[7].equals("null")) {
                     taskFromFile[7] = LocalDateTime.MIN.toString();
                 }
                 switch (TaskType.valueOf(taskFromFile[1])) {
@@ -174,11 +178,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                     case EPIC:
                         fileBackedTasksManager.longEpicHashMap.put(Integer.valueOf(taskFromFile[0]),
                                 new Epic(Integer.parseInt(taskFromFile[0]),
-                                        taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3]),Duration.ofMinutes(Long.parseLong(taskFromFile[6])), LocalDateTime.parse(taskFromFile[7])));
+                                        taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3]), Duration.ofMinutes(Long.parseLong(taskFromFile[6])), LocalDateTime.parse(taskFromFile[7])));
                         break;
                     case SUBTASK:
                         SubTask subTask = new SubTask(Integer.parseInt(taskFromFile[0]),
-                                taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3]),Duration.ofMinutes(Long.parseLong(taskFromFile[6])), LocalDateTime.parse(taskFromFile[7]));
+                                taskFromFile[2], taskFromFile[4], Status.valueOf(taskFromFile[3]), Duration.ofMinutes(Long.parseLong(taskFromFile[6])), LocalDateTime.parse(taskFromFile[7]));
 
                         subTask.setEpic(fileBackedTasksManager.longEpicHashMap.get(Integer.valueOf(taskFromFile[5])));
                         subTask.getEpic().getSubTasks().add(subTask);

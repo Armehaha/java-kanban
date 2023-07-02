@@ -33,12 +33,14 @@ public class Task {
 
 
     public Task(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        this.id = -1;
         this.name = name;
         this.description = description;
         this.status = status;
         this.duration = duration;
         this.startTime = startTime;
     }
+
 
     public int getId() {
         return id;
