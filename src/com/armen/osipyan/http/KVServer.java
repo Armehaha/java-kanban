@@ -47,7 +47,7 @@ public class KVServer {
                 System.out.println("/load ждёт GET-запрос, а получил: " + h.getRequestMethod());
                 h.sendResponseHeaders(405, 0);
             }
-        }catch(IOException e){
+        } catch (IOException e) {
             throw new ManagerSaveException();
         } finally {
             h.close();
@@ -86,9 +86,11 @@ public class KVServer {
             h.close();
         }
     }
+
     public void stop() {
         server.stop(0);
     }
+
     private void register(HttpExchange h) throws IOException {
         try {
             System.out.println("\n/register");

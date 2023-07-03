@@ -26,13 +26,15 @@ public class Epic extends Task {
         this.subTasks = new ArrayList<>();
 
     }
+
     public Epic(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
-        super( name, description, status, duration, startTime);
+        super(name, description, status, duration, startTime);
         this.subTasks = new ArrayList<>();
 
     }
+
     public Epic(String name, String description, Status status) {
-        super( name, description, status, Duration.ZERO, null);
+        super(name, description, status, Duration.ZERO, null);
         this.subTasks = new ArrayList<>();
 
     }
@@ -72,16 +74,16 @@ public class Epic extends Task {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Epic epic = (Epic) o;
-        if ( subTasks.size()!=epic.subTasks.size()){
+        if (subTasks.size() != epic.subTasks.size()) {
             return false;
         }
 
         boolean flag;
-        for (int i = 0; i < subTasks.size()-1; i++) {
-            if (subTasks.get(i)==epic.subTasks.get(i)) return true;
+        for (int i = 0; i < subTasks.size() - 1; i++) {
+            if (subTasks.get(i) == epic.subTasks.get(i)) return true;
             if (subTasks.get(i) == null || subTasks.get(i).getClass() != epic.subTasks.get(i).getClass()) return false;
-           flag = subTasks.get(i).getId()==epic.subTasks.get(i).getId()&&subTasks.get(i).getName().equals(epic.subTasks.get(i).getName())&&subTasks.get(i).getDescription().equals(epic.subTasks.get(i).getDescription())&&subTasks.get(i).getStatus()==epic.subTasks.get(i).getStatus();
-            if (!flag){
+            flag = subTasks.get(i).getId() == epic.subTasks.get(i).getId() && subTasks.get(i).getName().equals(epic.subTasks.get(i).getName()) && subTasks.get(i).getDescription().equals(epic.subTasks.get(i).getDescription()) && subTasks.get(i).getStatus() == epic.subTasks.get(i).getStatus();
+            if (!flag) {
                 return false;
             }
         }

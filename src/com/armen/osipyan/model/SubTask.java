@@ -43,7 +43,7 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        if (epic==null){
+        if (epic == null) {
             return "SubTask{" +
                     "id=" + this.getId() +
                     ", name='" + this.getName() + '\'' +

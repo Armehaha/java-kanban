@@ -23,7 +23,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         //создаю файлового менелджера и далее создаю и просматриваю задачи
-        TaskManager manager = new FileBackedTasksManager(Paths.get("resource","\\tasks.csv"));
+//        TaskManager manager = new FileBackedTasksManager(Paths.get("resource","\\tasks.csv"));
 //        manager.createTask(new Task(1, "Подготовить скрипты для вывода в прод",
 //                "Добавьте новые данные в таблицу nsi_regions", Status.NEW));
 //
@@ -97,8 +97,9 @@ public class Main {
 //        manager.createEpic(epicTask);
 //        manager.getEpic(epicTask.getId());
 
-        HttpTaskServer httpTaskServer = new HttpTaskServer();
-
+//        HttpTaskServer httpTaskServer = new HttpTaskServer();
+        Task epicTask = new SubTask("epic", "epic1", Status.NEW, Duration.ofMinutes(5), LocalDateTime.now());
+        System.out.println(epicTask instanceof SubTask);
 
     }
 }
